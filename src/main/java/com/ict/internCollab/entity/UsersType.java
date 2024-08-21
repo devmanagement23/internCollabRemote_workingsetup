@@ -1,76 +1,60 @@
 package com.ict.internCollab.entity;
 
+import jakarta.persistence.*;
+
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-
 @Entity
-@Table(name="users_type")
+@Table(name = "users_type")
 public class UsersType {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int userTypeId;
-	
-	private String userTypeName;
-	
-	@OneToMany(targetEntity = Users.class,mappedBy = "userTypeId",cascade = CascadeType.ALL)
-	private List<Users> users;
 
-	//constructor
-	public UsersType() {
-		
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int userTypeId;
 
-	//constructor with fields
-	public UsersType(int userTypeId, String userTypeName, List<Users> users) {
-		
-		this.userTypeId = userTypeId;
-		this.userTypeName = userTypeName;
-		this.users = users;
-	}
+    private String userTypeName;
 
-	//getter and setter
-	
-	public int getUserTypeId() {
-		return userTypeId;
-	}
+    @OneToMany(targetEntity = Users.class, mappedBy = "userTypeId", cascade = CascadeType.ALL)
+    private List<Users> users;
 
-	public void setUserTypeId(int userTypeId) {
-		this.userTypeId = userTypeId;
-	}
+    public UsersType() {
+    }
 
-	public String getUserTypeName() {
-		return userTypeName;
-	}
+    public UsersType(int userTypeId, String userTypeName, List<Users> users) {
+        this.userTypeId = userTypeId;
+        this.userTypeName = userTypeName;
+        this.users = users;
+    }
 
-	public void setUserTypeName(String userTypeName) {
-		this.userTypeName = userTypeName;
-	}
+    public int getUserTypeId() {
+        return userTypeId;
+    }
 
-	public List<Users> getUsers() {
-		return users;
-	}
+    public void setUserTypeId(int userTypeId) {
+        this.userTypeId = userTypeId;
+    }
 
-	public void setUsers(List<Users> users) {
-		this.users = users;
-	}
+    public String getUserTypeName() {
+        return userTypeName;
+    }
 
-		
-	//--------------------
-	@Override
-	public String toString() {
-		return "UsersType [userTypeId=" + userTypeId + ", userTypeName=" + userTypeName + "]";
-	}
-	
-	//to string
-	
-	
+    public void setUserTypeName(String userTypeName) {
+        this.userTypeName = userTypeName;
+    }
 
+    public List<Users> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<Users> users) {
+        this.users = users;
+    }
+
+    @Override
+    public String toString() {
+        return "UsersType{" +
+                "userTypeId=" + userTypeId +
+                ", userTypeName='" + userTypeName + '\'' +
+                '}';
+    }
 }

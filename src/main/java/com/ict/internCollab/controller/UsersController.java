@@ -1,96 +1,73 @@
 package com.ict.internCollab.controller;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.ict.internCollab.entity.Users;
+import com.ict.internCollab.entity.UsersType;
+import com.ict.internCollab.services.UsersService;
+import com.ict.internCollab.services.UsersTypeService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.ict.internCollab.entity.Users;
-import com.ict.internCollab.entity.UsersType;
-import com.ict.internCollab.services.UsersService;
-import com.ict.internCollab.services.UsersTypeService;
-
-import jakarta.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class UsersController {
-	
-	//fields for service
-	private final UsersTypeService usersTypeService;
-	private final UsersService usersService;
 
-	//constructor injection
-	@Autowired   //autowired is optional
-	public UsersController(UsersTypeService usersTypeService, UsersService usersService) {
-		
-		this.usersTypeService = usersTypeService;
-		this.usersService = usersService;
-	}
-	
-	//Show user registration form
-	// we will use model to pre-populate some form data we need here
-	@GetMapping("/register")
-	public String register(Model model) {
-		
-		List<UsersType> usersTypes = usersTypeService.getAll();
-													//Fetching User Types: we use the usersTypeService to retrieve 
-													//a list of all user types and stores them in a List<UsersType> object
-													//named usersTypes
-							//key			//value
-		model.addAttribute("getAllTypes", usersTypes);
-												//Adds the list of user types to the model with the key "getAllTypes". 
-												//This data will be available to the view (registration.html form) for 
-												//displaying options in a dropdown menu.
-		
-						//key	//value
-		model.addAttribute("user",new Users());  //new empty user created
-								//Adds a new, empty Users object to the model with the key "user". 
-								//This object will be bound to the registration.html form, allowing the user 
-								//to fill in the details. when submit is clicked into this empty new object
-		
-		return "register";   //returning register.html page
-	}
+    private final UsersTypeService usersTypeService;
+    private final UsersService usersService;
 
-// before same email error
-/* 
-	@PostMapping("/register/new")
-	public String userRegistration(@Valid Users users) {
+    @Autowired
+    public UsersController(UsersTypeService usersTypeService, UsersService usersService) {
+        this.usersTypeService = usersTypeService;
+        this.usersService = usersService;
+    }
 
-		System.out.println("User::"+users);
+    @GetMapping("/register")
+    public String register(Model model) {
+        List<UsersType> usersTypes = usersTypeService.getAll();
+        model.addAttribute("getAllTypes", usersTypes);
+        model.addAttribute("user", new Users());
+        return "register";
+    }
 
-		usersService.addNew(users);
+    @PostMapping("/register/new")
+    public String userRegistration(@Valid Users users, Model model) {
+        Optional<Users> optionalUsers = usersService.getUserByEmail(users.getEmail());
+        if (optionalUsers.isPresent()) {
+            model.addAttribute("error", "Email already registered,try to login or register with other email.");
+            List<UsersType> usersTypes = usersTypeService.getAll();
+            model.addAttribute("getAllTypes", usersTypes);
+            model.addAttribute("user", new Users());
+            return "register";
+        }
+        usersService.addNew(users);
+        return "redirect:/dashboard/";
+    }
 
-		return "dashboard";
-		
-	}
- */
-	
-	@PostMapping("/register/new")
-	public String userRegistration(@Valid Users users,Model model) {
-		
-		
-		//System.out.println("User::"+users);
-		
-		Optional<Users> optionalUsers =  usersService.getUserByEmail(users.getEmail());
-		
-		if(optionalUsers.isPresent()) {
-			model.addAttribute("Error","Email already registered, try to register with other email.");
-			
-			List<UsersType> usersTypes = usersTypeService.getAll();
-			model.addAttribute("getAllTypes", usersTypes);
-			model.addAttribute("user",new Users());
-			return "register";
-		}
-		
-		usersService.addNew(users);
-		
-		return "dashboard";
-		
-	}	
-	
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
 
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null) {
+            new SecurityContextLogoutHandler().logout(request, response, authentication);
+        }
+
+        return "redirect:/";
+    }
 }

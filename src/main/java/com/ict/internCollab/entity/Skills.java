@@ -1,93 +1,82 @@
 package com.ict.internCollab.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name="skills")
+@Table(name = "skills")
 public class Skills {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	
-	private String name;
-	
-	private String experienceLevel;
-	
-	private String yearsOfExperience;
-	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name= "job_seeker_profile")
-	private JobSeekerProfile jobSeekerProfile;
 
-	public Skills() {
-		
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	public Skills(int id, String name, String experienceLevel, String yearsOfExperience,
-			JobSeekerProfile jobSeekerProfile) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.experienceLevel = experienceLevel;
-		this.yearsOfExperience = yearsOfExperience;
-		this.jobSeekerProfile = jobSeekerProfile;
-	}
+    private String name;
+    private String experienceLevel;
+    private String yearsOfExperience;
 
-	public int getId() {
-		return id;
-	}
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "job_seeker_profile")
+    private JobSeekerProfile jobSeekerProfile;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public Skills() {
+    }
 
-	public String getName() {
-		return name;
-	}
+    public Skills(Integer id, String name, String experienceLevel, String yearsOfExperience, JobSeekerProfile jobSeekerProfile) {
+        this.id = id;
+        this.name = name;
+        this.experienceLevel = experienceLevel;
+        this.yearsOfExperience = yearsOfExperience;
+        this.jobSeekerProfile = jobSeekerProfile;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public String getExperienceLevel() {
-		return experienceLevel;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setExperienceLevel(String experienceLevel) {
-		this.experienceLevel = experienceLevel;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getYearsOfExperience() {
-		return yearsOfExperience;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setYearsOfExperience(String yearsOfExperience) {
-		this.yearsOfExperience = yearsOfExperience;
-	}
+    public String getExperienceLevel() {
+        return experienceLevel;
+    }
 
-	public JobSeekerProfile getJobSeekerProfile() {
-		return jobSeekerProfile;
-	}
+    public void setExperienceLevel(String experienceLevel) {
+        this.experienceLevel = experienceLevel;
+    }
 
-	public void setJobSeekerProfile(JobSeekerProfile jobSeekerProfile) {
-		this.jobSeekerProfile = jobSeekerProfile;
-	}
+    public String getYearsOfExperience() {
+        return yearsOfExperience;
+    }
 
-	@Override
-	public String toString() {
-		return "Skills [id=" + id + ", name=" + name + ", experienceLevel=" + experienceLevel + ", yearsOfExperience="
-				+ yearsOfExperience + ", jobSeekerProfile=" + jobSeekerProfile + "]";
-	}
-	
-	
-	
+    public void setYearsOfExperience(String yearsOfExperience) {
+        this.yearsOfExperience = yearsOfExperience;
+    }
 
+    public JobSeekerProfile getJobSeekerProfile() {
+        return jobSeekerProfile;
+    }
+
+    public void setJobSeekerProfile(JobSeekerProfile jobSeekerProfile) {
+        this.jobSeekerProfile = jobSeekerProfile;
+    }
+
+    @Override
+    public String toString() {
+        return "Skills{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", experienceLevel='" + experienceLevel + '\'' +
+                ", yearsOfExperience='" + yearsOfExperience + '\'' +
+                ", jobSeekerProfile=" + jobSeekerProfile +
+                '}';
+    }
 }

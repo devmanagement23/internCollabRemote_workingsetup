@@ -1,11 +1,7 @@
 package com.ict.internCollab.repository;
 
+import com.ict.internCollab.entity.RecruiterProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.ict.internCollab.entity.RecruiterProfile;
-
-public interface RecruiterProfileRepository extends JpaRepository<RecruiterProfile,Integer> {
-	
-	
-
+public interface RecruiterProfileRepository extends JpaRepository<RecruiterProfile, Integer> {
 }
