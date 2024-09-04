@@ -182,8 +182,10 @@
                 <th:block th:each="jobPost:${jobPost}">
                     <a th:href="@{/job-details-apply/{id}(id=${jobPost.jobPostId})}"
                         style="text-decoration: none; color: black">
-                        
-                        <div onclick="window.location=/job-details-apply/{id}(id=${jobPost.jobPostId})" class="job-row">  
+
+                        <!-- <div onclick="window.location=/job-details-apply/{id}(id=${jobPost.jobPostId})" class="job-row"> ;  -->
+
+                        <!-- <div onclick="window.location=/job-details-apply/{id}(id=${jobPost.jobPostId})" class="job-row">  -->
 
 
                             <!-- <div onclick="window.location=/job-details-apply/{id}(id=${jobPost.jobPostId});" class="job-row"> -->
@@ -195,7 +197,7 @@
                             
                             
                             <!-- <div onclick="window.location.href = '/job-details-apply/' + [[${jobPost.jobPostId}]];" class="job-row"> -->
-                                <!-- <div th:onclick="'window.location.href = \'/job-details-apply/' + ' + ${jobPost.jobPostId} + ';'" class="job-row"> -->
+                                <div th:onclick="'window.location.href = \'/job-details-apply/' + ' + ${jobPost.jobPostId} + ';'" class="job-row">
 
 
                             <div class="row">
